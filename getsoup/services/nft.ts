@@ -16,6 +16,7 @@ const wallet = new ethers.Wallet(OWNER_PRIVATE_KEY, provider)
 const contract = ChunkyNft__factory.connect(CONTRACT_ADDRESS, wallet)
 
 export const mintNft = async (address: string, metadataUrl: string) => {
+  console.log('provider', provider)
   const unsignedTx = await contract.mintAndTransfer.populateTransaction(address, metadataUrl)
   const txnRequest = {
     to: CONTRACT_ADDRESS,
