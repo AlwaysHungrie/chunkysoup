@@ -9,6 +9,10 @@ datasource db {
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+model Contract {
+  address String @id
+}
+
 model Ingredient {
   id        String   @id @default(uuid())
   name      String   @unique
