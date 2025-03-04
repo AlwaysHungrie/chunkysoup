@@ -16,7 +16,9 @@ const getPrompt = async (ingredients: string[]) => {
 }
 
 export const generateImage = async (ingredients: string[]) => {
+  console.log('Generating image')
   const prompt = await getPrompt(ingredients)
+  console.log('Prompt:', prompt)
   const response = await openai.images.generate({
     model: "dall-e-3",
     prompt,

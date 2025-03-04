@@ -29,6 +29,11 @@ const formatTime = (ingredients: string[], time: Date) => {
 const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME } =
   config
 
+console.log('AWS_REGION', AWS_REGION)
+console.log('AWS_ACCESS_KEY_ID', AWS_ACCESS_KEY_ID)
+console.log('AWS_SECRET_ACCESS_KEY', AWS_SECRET_ACCESS_KEY)
+console.log('S3_BUCKET_NAME', S3_BUCKET_NAME)
+
 // Initialize S3 client
 const s3Client = new S3Client({
   region: AWS_REGION,
@@ -63,7 +68,7 @@ export const getS3Url = async (ingredients: string[]) => {
       filename,
     }
   } catch (error) {
-    console.error('Error getting S3 URL:', error)
+    console.log('Error getting S3 URL:', error)
     return {
       s3Url: null,
       filename: null,

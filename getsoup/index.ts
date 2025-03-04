@@ -48,6 +48,7 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
         throw new Error('Failed to generate image')
       }
 
+      console.log('Uploading image to S3')
       const { s3Url: newS3Url, filename: newFilename } = await uploadImageToS3(ingredients, imageUrl, forceGenerate)
       if (!newS3Url) {
         throw new Error('Failed to upload image to S3')
@@ -62,6 +63,7 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
       throw new Error('Failed to upload metadata to S3')
     }
 
+    console.log('Minting NFT')
     const { txnHash, tokenId } = await mintNft(address, s3MetadataUrl)
     const result = {
       success: true,
