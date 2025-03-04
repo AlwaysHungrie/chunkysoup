@@ -17,15 +17,6 @@ if (!OPENAI_API_KEY) {
   throw new Error("Missing OpenAI API key");
 }
 
-const OWNER_PRIVATE_KEY = process.env.OWNER_PRIVATE_KEY;
-const OWNER_ADDRESS = process.env.OWNER_ADDRESS;
-const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
-
-if (!OWNER_PRIVATE_KEY || !OWNER_ADDRESS || !CONTRACT_ADDRESS) {
-  throw new Error("Missing owner private key or address or contract address");
-}
-
-const CONTRACT_TYPE_PATH = process.env.CONTRACT_TYPE_PATH || './chunky-smartcontracts/typechain-types/contracts/ChunkyNft.ts';
 const BASE_SEPOLIA_RPC_URL = process.env.BASE_SEPOLIA_RPC_URL;
 
 if (!BASE_SEPOLIA_RPC_URL) {
@@ -38,9 +29,5 @@ export const config = {
   IAWS_REGION,
   IS3_BUCKET_NAME,
   OPENAI_API_KEY,
-  OWNER_PRIVATE_KEY,
-  OWNER_ADDRESS,
-  CONTRACT_ADDRESS,
-  CONTRACT_TYPE_PATH,
   BASE_SEPOLIA_RPC_URL,
 };

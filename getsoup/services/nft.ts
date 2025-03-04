@@ -1,25 +1,20 @@
 import { config } from '../config'
 import { ChunkyNft__factory } from '../typechain-types'
 import { ethers } from 'ethers'
+import prisma from '../prismaClient'
 
-const {
-  CONTRACT_ADDRESS,
-  CONTRACT_TYPE_PATH,
-  OWNER_ADDRESS,
-  OWNER_PRIVATE_KEY,
-  BASE_SEPOLIA_RPC_URL,
-} = config
-
-const provider = new ethers.JsonRpcProvider(BASE_SEPOLIA_RPC_URL)
-const wallet = new ethers.Wallet(OWNER_PRIVATE_KEY, provider)
-
-const contract = ChunkyNft__factory.connect(CONTRACT_ADDRESS, wallet)
+const { BASE_SEPOLIA_RPC_URL } = config
 
 export const mintNft = async (address: string, metadataUrl: string) => {
-  console.log('provider', provider)
-  const unsignedTx = await contract.mintAndTransfer.populateTransaction(address, metadataUrl)
+  const contracts = await prisma.contract.findMany()
+  const contractAddress = contracts[0].address
+  const contract = ChunkyNft__factory.connect(contractAddress)
+  const unsignedTx = await contract.mintAndTransfer.populateTransaction(
+    address,
+    metadataUrl
+  )
   const txnRequest = {
-    to: CONTRACT_ADDRESS,
+    to: contractAddress,
     data: unsignedTx.data,
     value: unsignedTx.value || 0,
     gasLimit: unsignedTx.gasLimit,
@@ -32,7 +27,7 @@ export const mintNft = async (address: string, metadataUrl: string) => {
   // if (!receipt) {
   //   throw new Error('Transaction failed')
   // }
-  
+
   // const logs = receipt.logs
   // console.log('logs', logs)
 
@@ -48,6 +43,10 @@ export const mintNft = async (address: string, metadataUrl: string) => {
 }
 
 export const burnNft = async (tokenId: string) => {
+  const contracts = await prisma.contract.findMany()
+  const contractAddress = contracts[0].address
+  const contract = ChunkyNft__factory.connect(contractAddress)
+  
   const tx = await contract.burnNFT(BigInt(tokenId))
   const receipt = await tx.wait()
   if (!receipt) {
