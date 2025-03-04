@@ -42,7 +42,7 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
   }
 }
 
-;(async () => {
-  const result = await handler({})
-  console.log(result)
-})()
+// ;(async () => {
+//   const result = await handler({})
+//   console.log(result)
+// })()

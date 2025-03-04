@@ -48,10 +48,10 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
   }
 }
 
-// (async () => {
-//   const result = await handler({
-//     ingredients: ['tomatoes'],
-//   })
+(async () => {
+  const result = await handler({
+    ingredients: ['tomatoes'],
+  })
   
-//   console.log(result)
-// })()
+  console.log(result)
+})()
