@@ -2,12 +2,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID;
-const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY;
-const AWS_REGION = process.env.AWS_REGION;
-const S3_BUCKET_NAME = process.env.S3_BUCKET_NAME;
+const IAWS_ACCESS_KEY_ID = process.env.IAWS_ACCESS_KEY_ID;
+const IAWS_SECRET_ACCESS_KEY = process.env.IAWS_SECRET_ACCESS_KEY;
+const IAWS_REGION = process.env.IAWS_REGION;
+const IS3_BUCKET_NAME = process.env.IS3_BUCKET_NAME;
 
-if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY || !AWS_REGION || !S3_BUCKET_NAME) {
+if (!IAWS_ACCESS_KEY_ID || !IAWS_SECRET_ACCESS_KEY || !IAWS_REGION || !IS3_BUCKET_NAME) {
   throw new Error("Missing AWS credentials or region or S3 bucket name");
 }
 
@@ -33,10 +33,10 @@ if (!BASE_SEPOLIA_RPC_URL) {
 }
 
 export const config = {
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
-  AWS_REGION,
-  S3_BUCKET_NAME,
+  IAWS_ACCESS_KEY_ID,
+  IAWS_SECRET_ACCESS_KEY,
+  IAWS_REGION,
+  IS3_BUCKET_NAME,
   OPENAI_API_KEY,
   OWNER_PRIVATE_KEY,
   OWNER_ADDRESS,

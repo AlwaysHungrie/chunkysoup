@@ -26,20 +26,20 @@ const formatTime = (ingredients: string[], time: Date) => {
   return formattedTime
 }
 
-const { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, S3_BUCKET_NAME } =
+const { IAWS_REGION, IAWS_ACCESS_KEY_ID, IAWS_SECRET_ACCESS_KEY, IS3_BUCKET_NAME } =
   config
 
-console.log('AWS_REGION', AWS_REGION)
-console.log('AWS_ACCESS_KEY_ID', AWS_ACCESS_KEY_ID)
-console.log('AWS_SECRET_ACCESS_KEY', AWS_SECRET_ACCESS_KEY)
-console.log('S3_BUCKET_NAME', S3_BUCKET_NAME)
+console.log('AWS_REGION', IAWS_REGION)
+console.log('AWS_ACCESS_KEY_ID', IAWS_ACCESS_KEY_ID)
+console.log('AWS_SECRET_ACCESS_KEY', IAWS_SECRET_ACCESS_KEY)
+console.log('S3_BUCKET_NAME', IS3_BUCKET_NAME)
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region: AWS_REGION,
+  region: IAWS_REGION,
   credentials: {
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    accessKeyId: IAWS_ACCESS_KEY_ID,
+    secretAccessKey: IAWS_SECRET_ACCESS_KEY,
   },
 })
 
@@ -49,7 +49,7 @@ export const getS3Url = async (ingredients: string[]) => {
     const folderName = 'images'
     // check if the file exists in the s3 bucket
     const command = new GetObjectCommand({
-      Bucket: S3_BUCKET_NAME,
+      Bucket: IS3_BUCKET_NAME,
       Key: `${folderName}/${filename}.png`,
       ResponseContentType: 'image/png',
     })
@@ -62,7 +62,7 @@ export const getS3Url = async (ingredients: string[]) => {
       }
     }
 
-    const s3Url = `https://${S3_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${folderName}/${filename}.png`
+    const s3Url = `https://${IS3_BUCKET_NAME}.s3.${IAWS_REGION}.amazonaws.com/${folderName}/${filename}.png`
     return {
       s3Url,
       filename,
@@ -92,7 +92,7 @@ export const uploadImageToS3 = async (ingredients: string[], imageUrl: string, f
   const filename = `${folderName}/${key}.png`
 
   const command = new PutObjectCommand({
-    Bucket: S3_BUCKET_NAME,
+    Bucket: IS3_BUCKET_NAME,
     Key: filename,
     Body: imageBuffer,
     ContentType: 'image/png',
@@ -103,7 +103,7 @@ export const uploadImageToS3 = async (ingredients: string[], imageUrl: string, f
     throw new Error('Failed to upload image to S3')
   }
 
-  const s3Url = `https://${S3_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${filename}`
+  const s3Url = `https://${IS3_BUCKET_NAME}.s3.${IAWS_REGION}.amazonaws.com/${filename}`
   return {
     s3Url,
     filename,
@@ -130,7 +130,7 @@ export const uploadMetadataToS3 = async (
   }
 
   const command = new PutObjectCommand({
-    Bucket: S3_BUCKET_NAME,
+    Bucket: IS3_BUCKET_NAME,
     Key: filename,
     Body: JSON.stringify(metadata),
     ContentType: 'application/json',
@@ -141,7 +141,7 @@ export const uploadMetadataToS3 = async (
     throw new Error('Failed to upload metadata to S3')
   }
 
-  const s3MetadataUrl = `https://${S3_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/${filename}`
+  const s3MetadataUrl = `https://${IS3_BUCKET_NAME}.s3.${IAWS_REGION}.amazonaws.com/${filename}`
   return {
     s3MetadataUrl,
     filename,
