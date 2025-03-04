@@ -11,7 +11,11 @@ interface GenerateImageRequest {
 
 interface LambdaResponse {
   error: string | null
-  jsonResult: any
+  jsonResult: any | null
+  transaction?: {
+    txnRequest: any
+    rpcUrl: string
+  }
 }
 
 export const handler = async (event: any): Promise<LambdaResponse> => {
@@ -49,7 +53,11 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
       }
 
       console.log('Uploading image to S3')
-      const { s3Url: newS3Url, filename: newFilename } = await uploadImageToS3(ingredients, imageUrl, forceGenerate)
+      const { s3Url: newS3Url, filename: newFilename } = await uploadImageToS3(
+        ingredients,
+        imageUrl,
+        forceGenerate
+      )
       if (!newS3Url) {
         throw new Error('Failed to upload image to S3')
       }
@@ -64,19 +72,17 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
     }
 
     console.log('Minting NFT')
-    const { txnHash, tokenId } = await mintNft(address, s3MetadataUrl)
-    const result = {
-      success: true,
-      message: 'Image generated and saved to S3',
-      s3Url,
-      s3MetadataUrl,
-      tokenId,
-      txnHash,
-    }
-
+    const { txnRequest, rpcUrl } = await mintNft(address, s3MetadataUrl)
     return {
       error: null,
-      jsonResult: result,
+      jsonResult: {
+        s3Url,
+        s3MetadataUrl,
+      },
+      transaction: {
+        txnRequest,
+        rpcUrl,
+      },
     }
   } catch (e) {
     return {
@@ -86,12 +92,12 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
   }
 }
 
-// (async () => {
-//   const result = await handler({
-//     ingredients: ['tomatoes'],
-//     address: '0x43Cb32825f0A1CBaC2fd6B11a18f46aa81D142f4',
-//     forceGenerate: true,
-//   })
-  
-//   console.log(result)
-// })()
+;(async () => {
+  const result = await handler({
+    ingredients: ['tomatoes'],
+    address: '0x43Cb32825f0A1CBaC2fd6B11a18f46aa81D142f4',
+    forceGenerate: false,
+  })
+
+  console.log(result)
+})()
