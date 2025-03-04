@@ -84,12 +84,12 @@ export const handler = async (event: any): Promise<LambdaResponse> => {
   }
 }
 
-(async () => {
-  const result = await handler({
-    ingredients: ['tomatoes'],
-    address: '0x43Cb32825f0A1CBaC2fd6B11a18f46aa81D142f4',
-    forceGenerate: true,
-  })
+// (async () => {
+//   const result = await handler({
+//     ingredients: ['tomatoes'],
+//     address: '0x43Cb32825f0A1CBaC2fd6B11a18f46aa81D142f4',
+//     forceGenerate: true,
+//   })
   
-  console.log(result)
-})()
+//   console.log(result)
+// })()

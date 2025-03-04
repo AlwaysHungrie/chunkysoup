@@ -30,8 +30,14 @@ Following commands will be run to create a zip folder of your function:
 git clone <repo-url>
 npm install
 touch .env
-npx prisma generate
+npx prisma db pull
+
+# If the introspected database was empty, then 
 npx prisma migrate dev --name init
+
+# If the introspected database was not empty, then
+npx prisma generate
+
 npx tsc
 ```
 
