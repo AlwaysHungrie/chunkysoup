@@ -25,7 +25,7 @@ describe("ChunkyNft", function () {
     });
 
     it("Should have the correct name and symbol", async function () {
-      expect(await chunkyNft.name()).to.equal("ChunkyNft");
+      expect(await chunkyNft.name()).to.equal("ChunkySoup");
       expect(await chunkyNft.symbol()).to.equal("CHUNKY_SOUP");
     });
   });
